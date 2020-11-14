@@ -11,10 +11,10 @@ import SwiftUI
 struct color_guesserApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(newColorText: "RGB(1,2,3)", red: 1, green:2, blue:2, newColor: Color(
+            ContentView(newColorText: "", red: 1, green:2, blue:2, newColor: Color(
                             red:1.0,
                             green:2.0,
-                            blue:3.0))
+                            blue:3.0), buttonText: "Start Game", resultText: "")
         }
     }
 }

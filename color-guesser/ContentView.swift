@@ -15,21 +15,24 @@ struct ContentView: View {
     @State var green: Int
     @State var blue: Int
     @State var newColor: Color
+    @State var buttonText: String
+    @State var resultText: String
     
     
 
     var body: some View {
         NavigationView {
             ZStack{
-                Color.gray.edgesIgnoringSafeArea(.all)
+                Color.white.edgesIgnoringSafeArea(.all)
                 VStack{
                     Spacer()
-                    Button("new color") {
+                    Button("\(buttonText)") {
+                        buttonText = setText(text: "New Game")
                         red = getRed()
                         green = getGreen()
                         blue = getBlue()
-                        self.newColor = self.getNewColor(red: red,green: green,blue: blue)
-                        self.newColorText = self.getNewColorText(red: red,green: green,blue: blue)
+                        newColor = getNewColor(red: red,green: green,blue: blue)
+                        newColorText = getNewColorText(red: red,green: green,blue: blue)
                     }
                         .foregroundColor(Color.white)
                         .padding()
@@ -38,11 +41,11 @@ struct ContentView: View {
                     Spacer()
                     Text("\(newColorText)")
                         .padding()
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color.black)
                         .font(.system(size: 30))
                     Spacer()
-                    
-                    List {
+                    Text("\(resultText)")
+                    Spacer()
                         VStack {
                             HStack(alignment: .center) {
                                 RoundedRectangle(cornerRadius: 10.0)
@@ -84,37 +87,21 @@ struct ContentView: View {
                                 RoundedRectangle(cornerRadius: 10.0)
                                     .fill(newColor)
                                     .frame(width:125, height: 125)
-                                
-                            }
-                            HStack(alignment: .center) {
-                                RoundedRectangle(cornerRadius: 10.0)
-                                    .fill(newColor)
-                                    .frame(width:125, height: 125)
-                                
-                                RoundedRectangle(cornerRadius: 10.0)
-                                    .fill(newColor)
-                                    .frame(width:125, height: 125)
-                                
-                                RoundedRectangle(cornerRadius: 10.0)
-                                    .fill(newColor)
-                                    .frame(width:125, height: 125)
-                                
                             }
                         }
-
-                    }.padding(EdgeInsets.init(top: 0, leading: -20, bottom: 0, trailing: -20))
-                    
-                    
-
-                    
-                    
-                        Spacer()
+                    Spacer()
                 }
-            }.navigationBarTitle("Color Guesser", displayMode: .inline)
-            .navigationBarItems(trailing: NavigationLink(destination: AboutView()) { Image(systemName: "i.circle").foregroundColor(.black)})
+            }.navigationBarTitle("Guess the Color")
+            .navigationBarItems(trailing: NavigationLink(destination: AboutView()) { Image(systemName: "info.circle").foregroundColor(.black)})
         }
     }
-    
+}
+
+    func setText(text:String) -> String {
+        let newText = text
+        return newText
+    }
+
     func getRed() -> Int {
         let red = Int.random(in: 0...255)
         return red
@@ -141,13 +128,22 @@ struct ContentView: View {
         let RGBtext = "RGB(\(red), \(green), \(blue))"
         return RGBtext
     }
-}
+
+    // getNewTile creates a new Tile for the UI
+    //
+    // Parameter: colorOfTile - the color to set the newly made Tile to
+    func getNewTile(colorOfTile:Color) -> RoundedRectangle {
+        let tile = RoundedRectangle(cornerRadius: 10.0)
+            .fill(colorOfTile)
+            .frame(width:125, height: 125)
+        return tile as! RoundedRectangle
+    }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(newColorText: "RGB(1,2,3)", red: 1, green:2, blue:3, newColor: Color(
+        ContentView(newColorText: "", red: 1, green:2, blue:3, newColor: Color(
                         red:1.0,
                         green:2.0,
-                        blue:3.0))
+                        blue:3.0), buttonText: "Start Game", resultText: "")
     }
 }
